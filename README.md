@@ -17,7 +17,8 @@ It creates the following files:
 * `.slurp/cmdline.txt` containing all the commands that you ran from the current directory
 * `$HOME/.slurp_main/cmdline.txt` contain all the commands ever run using slurp command in your home directory.
 
-## Example
+## Example
+
 ```
 slurp command --jobname='bamsort' --time=02:00:00 "singularity ~/sifs/samtools.sif samtools index input.bam
 ```
