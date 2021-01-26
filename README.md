@@ -1,8 +1,10 @@
 # slurp
-A convenient way to run jobs in slurm. 
+A convenient way to run jobs in slurm.
+
+Just clone the repo and `ln -s ~/clonedir/slurp/slurp.py ~/bin/slurp` and change file permissions to make it executable.
 
 ## Dependencies
-time, os, pandas, subprocess, docopt
+python >= 3.7, time, os, pandas, subprocess, docopt, sys, subprocess
 
 ## Subcommands
 ```
