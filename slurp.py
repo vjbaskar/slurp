@@ -191,7 +191,7 @@ class Slurmjob:
         # recordfile = ".slurp/hist.cmds"
         self._recorder(recordfile=main_recorddir + "/hist.cmds")
         self._recorder(recordfile=local_recorddir + "/cmdline.txt", type='cmd')
-        self._recorder(recordfile=main_recorddir + "/cmdlile.txt", type='cmd')
+        self._recorder(recordfile=main_recorddir + "/cmdline.txt", type='cmd')
 
     def copy_code(self):
         jobd = self.job
