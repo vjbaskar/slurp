@@ -22,6 +22,6 @@ It creates the following files:
 ## Example
 
 ```
-slurp command --jobname='bamsort' --time=02:00:00 "singularity ~/sifs/samtools.sif samtools index input.bam
+slurp command --jobname='bamsort' --time=02:00:00 "singularity ~/sifs/samtools.sif samtools index input.bam"
 ```
 This runs by default on the partition, with default memory for 1 core for 2hrs.
