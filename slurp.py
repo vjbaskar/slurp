@@ -7,6 +7,7 @@ Usage:
 [--memory=<MB>] [--nodes=<N>] [--ntasks=<n>] [--log=<logfile>] [--email=<email>] COMMANDFILE
      slurp command --jobname=<job-name> [ --partition=<p> ] [ --account=<A> ] [ --time=<D-HH:MM:SS> ] \
 [--memory=<MB>] [--nodes=<N>] [--ntasks=<n>] [--log=<logfile>] [--email=<email>] COMMAND
+    slurp ls [--head=<N>] [--tail=<N>] [--grep=<pattern>] [--type=<type>]
 
 Options:
     -h --help                   Help
@@ -19,6 +20,10 @@ Options:
     --ntasks=<ntasks>           Number of tasks (cores) [default: 1]
     --jobname=<jobname>         Name of the job. Will be appended to logs.
     --log=<log>                 log file. Both stdout and stderr are written in the same file. [default: default]
+    --head=<N>                  Top <N> lines of the file
+    --tail=<N>                  Bottom <N> lines of the file
+    --grep=<pattern>            Pattern you want to search for in the file
+    --type=<type>               Can take either main or local. If main list all slurp commands. If local prints out slurp history in local dir.
 """
 from docopt import docopt
 import time
@@ -26,6 +31,8 @@ import os
 import pandas as pd
 import subprocess
 import sys
+import random
+
 
 class Slurmjob:
     def __init__(self, docopt_dict):
@@ -35,8 +42,13 @@ class Slurmjob:
             if isinstance(docopt_dict[key], str):
                 docopt_dict[key] = docopt_dict[key].replace("'", "")
             jobd[k] = docopt_dict[key]
+        if jobd['jobname'] is None:
+            print("jobname not defined")
+            jobd['jobname'] = str(random.randint(10000,90000))
+            print(jobd['jobname'])
         jobd['invoke_time'] = time.strftime('%Y%m%d-%H%M%S-%s', time.localtime())
         jobd['creation_time'] = time.strftime('%Y-%m-%d %H:%M', time.localtime())
+        print(jobd['jobname'])
         jobd['runid'] =  jobd['invoke_time'] + "-" + jobd['jobname']
         jobd['slurmcode_dir'] = 'jobfiles/'
         jobd["slurm_file"] = jobd['slurmcode_dir'] + jobd['runid'] + ".slurm"
@@ -44,6 +56,7 @@ class Slurmjob:
             jobd['log'] = ".slurm/" + jobd['runid'] + ".log"
         jobd['memory'] = int(jobd['memory'])
         jobd['cmdline'] = sys.argv
+        jobd['homedir'] = os.getenv("HOME")
         self.job = jobd
 
     def job_details(self):
@@ -51,6 +64,14 @@ class Slurmjob:
 
     def start_job(self):
         cmd = ['sbatch', self.job['slurm_file']]
+        if self.job['ls'] == True:
+            if self.job['type'] == "main":
+                main_file_name = self.job['homedir'] + '/.slurp_main/cmdline.txt'
+                print(main_file_name)
+                df = self._read_csv(main_file_name, sep="\t")
+                if not df is None:
+                    print(df)
+        exit(0)
         if self.job['file'] == True:
             if os.path.exists(self.job['COMMANDFILE']):
                 shellout = subprocess.run(cmd, capture_output=True)
@@ -64,9 +85,21 @@ class Slurmjob:
         slurmjob_id = s.split()[3].decode("utf-8")
         self.job['slurmjob_id'] = slurmjob_id
             #print(shellout)
+
         # if self.job['local'] == True:
         ## To do
         #    cmd = self.job['COMMAND']
+
+    def _read_csv(self, main_file_name, sep="\t"):
+        try:
+            df = pd.read_csv(main_file_name, sep=sep)
+            print("File is present")
+            print(df)
+        except IOError:
+            print("File is absent")
+            print("There is no main file in this directory")
+            df = None
+        return(df)
 
     def write_job(self):
         """
@@ -74,6 +107,10 @@ class Slurmjob:
         :return: self
         """
         jobd = self.job
+
+        if jobd['command'] == 'ls':
+            return
+
         if not os.path.exists(jobd['slurmcode_dir']):
             os.makedirs(jobd['slurmcode_dir'])
         command = ["#!/bin/bash",
@@ -170,9 +207,6 @@ class Slurmjob:
 
 
 if __name__ == '__main__':
-    jobd = dict()
-    #print(sys.argv)
-    # arguments = docopt(__doc__, version='batch cmd v1.0', argv=["file", "--jobname='hello'",'outpt.txt'])
     arguments = docopt(__doc__, version='slurp v1.0')
     j = Slurmjob(arguments)
     j.write_job()
