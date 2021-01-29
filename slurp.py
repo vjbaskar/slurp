@@ -65,12 +65,18 @@ class Slurmjob:
     def start_job(self):
         cmd = ['sbatch', self.job['slurm_file']]
         if self.job['ls'] == True:
+            df = None
             if self.job['type'] == "main":
                 main_file_name = self.job['homedir'] + '/.slurp_main/cmdline.txt'
                 print(main_file_name)
-                df = self._read_csv(main_file_name, sep="\t")
-                if not df is None:
-                    print(df)
+                df = self._read_csv(main_file_name)
+            else:
+                main_file_name = '.slurp/cmdline.txt'
+                print(main_file_name)
+                df = self._read_csv(main_file_name)
+            if not df is None:
+                print(df.to_markdown())
+                    #print(df)
         exit(0)
         if self.job['file'] == True:
             if os.path.exists(self.job['COMMANDFILE']):
@@ -90,7 +96,7 @@ class Slurmjob:
         ## To do
         #    cmd = self.job['COMMAND']
 
-    def _read_csv(self, main_file_name, sep="\t"):
+    def _read_csv(self, main_file_name, sep=","):
         try:
             df = pd.read_csv(main_file_name, sep=sep)
             print("File is present")
