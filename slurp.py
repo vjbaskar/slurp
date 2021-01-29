@@ -68,7 +68,7 @@ class Slurmjob:
             if self.job['type'] == "main":
                 main_file_name = self.job['homedir'] + '/.slurp_main/cmdline.txt'
                 print(main_file_name)
-                df = self._read_csv(main_file_name, sep="\t")
+                df = self._read_csv(main_file_name, sep=",")
                 if not df is None:
                     print(df)
         exit(0)
