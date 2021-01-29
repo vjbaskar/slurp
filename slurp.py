@@ -48,7 +48,6 @@ class Slurmjob:
             print(jobd['jobname'])
         jobd['invoke_time'] = time.strftime('%Y%m%d-%H%M%S-%s', time.localtime())
         jobd['creation_time'] = time.strftime('%Y-%m-%d %H:%M', time.localtime())
-        print(jobd['jobname'])
         jobd['runid'] =  jobd['invoke_time'] + "-" + jobd['jobname']
         jobd['slurmcode_dir'] = 'jobfiles/'
         jobd["slurm_file"] = jobd['slurmcode_dir'] + jobd['runid'] + ".slurm"
@@ -65,6 +64,7 @@ class Slurmjob:
     def start_job(self):
         cmd = ['sbatch', self.job['slurm_file']]
         if self.job['ls'] == True:
+            print("I am here")
             df = None
             if self.job['type'] == "main":
                 main_file_name = self.job['homedir'] + '/.slurp_main/cmdline.txt'
@@ -80,8 +80,7 @@ class Slurmjob:
             if not df is None:
                 print(df.to_markdown())
                     #print(df)
->>>>>>> 1bfdd6def552ad11d61ed30615fb0052a08610b7
-        exit(0)
+            exit(0)
         if self.job['file'] == True:
             if os.path.exists(self.job['COMMANDFILE']):
                 shellout = subprocess.run(cmd, capture_output=True)
