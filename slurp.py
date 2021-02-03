@@ -68,14 +68,12 @@ class Slurmjob:
             df = None
             if self.job['type'] == "main":
                 main_file_name = self.job['homedir'] + '/.slurp_main/cmdline.txt'
-                print(main_file_name)
                 df = self._read_csv(main_file_name, sep=",")
-                if not df is None:
-                    print(df)
+                #if not df is None:
+                #    print(df)
                 df = self._read_csv(main_file_name)
             else:
                 main_file_name = '.slurp/cmdline.txt'
-                print(main_file_name)
                 df = self._read_csv(main_file_name)
             if not df is None:
                 print(df.to_markdown())
