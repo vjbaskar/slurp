@@ -104,8 +104,6 @@ class Slurmjob:
     def _read_csv(self, main_file_name, sep=","):
         try:
             df = pd.read_csv(main_file_name, sep=sep)
-            print("File is present")
-            print(df)
         except IOError:
             print("File is absent")
             print("There is no main file in this directory")
