@@ -43,9 +43,8 @@ class Slurmjob:
                 docopt_dict[key] = docopt_dict[key].replace("'", "")
             jobd[k] = docopt_dict[key]
         if jobd['jobname'] is None:
-            print("jobname not defined")
             jobd['jobname'] = str(random.randint(10000,90000))
-            print(jobd['jobname'])
+            print("Job name not defined. Generating random one " + jobd['jobname'])
         jobd['invoke_time'] = time.strftime('%Y%m%d-%H%M%S-%s', time.localtime())
         jobd['creation_time'] = time.strftime('%Y-%m-%d %H:%M', time.localtime())
         jobd['runid'] =  jobd['invoke_time'] + "-" + jobd['jobname']
@@ -63,8 +62,9 @@ class Slurmjob:
 
     def start_job(self):
         cmd = ['sbatch', self.job['slurm_file']]
+
+        #### command == ls
         if self.job['ls'] == True:
-            print("I am here")
             df = None
             if self.job['type'] == "main":
                 main_file_name = self.job['homedir'] + '/.slurp_main/cmdline.txt'
@@ -81,12 +81,16 @@ class Slurmjob:
                 print(df.to_markdown())
                     #print(df)
             exit(0)
+
+        #### command == file
         if self.job['file'] == True:
             if os.path.exists(self.job['COMMANDFILE']):
                 shellout = subprocess.run(cmd, capture_output=True)
             else:
                 print("Error: No input file present")
                 exit(1)
+
+        #### command == command line
         if self.job['command'] == True:
             shellout = subprocess.run(cmd, capture_output=True)
         self.job['shellout'] = shellout
