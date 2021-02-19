@@ -11,19 +11,19 @@ Usage:
 
 Options:
     -h --help                   Help
-    --partition=<p>             Partition to run on. eg. clincloud, clincloud-himem, clincloud-express, skylake [default: clincloud]
-    --account=<a>               Account to use. eg. gottgens-ccld-sl2-cpu, gottgens-ccld-sl3-cpu [default: gottgens-ccld-sl2-cpu]
-    --email=<emailid>           Email id to use. eg. vs401 [default: vs401]
-    --time=<time>               Upper time limit for the job D-HH:MM:SS [default: 12:00:00]
-    --memory=<mem>              Memory in MB. If -1 then it will take the default value in the partition [default: -1]
-    --nodes=<nodes>             Number of nodes [default: 1]
-    --ntasks=<ntasks>           Number of tasks (cores) [default: 1]
-    --jobname=<jobname>         Name of the job. Will be appended to logs.
-    --log=<log>                 log file. Both stdout and stderr are written in the same file. [default: default]
-    --head=<N>                  Top <N> lines of the file
-    --tail=<N>                  Bottom <N> lines of the file
-    --grep=<pattern>            Pattern you want to search for in the file
-    --type=<type>               Can take either main or local. If main list all slurp commands. If local prints out slurp history in local dir.
+    -p --partition=<p>             Partition to run on. eg. clincloud, clincloud-himem, clincloud-express, skylake [default: clincloud]
+    -a --account=<a>               Account to use. eg. gottgens-ccld-sl2-cpu, gottgens-ccld-sl3-cpu [default: gottgens-ccld-sl2-cpu]
+    -e --email=<emailid>           Email id to use. eg. vs401 [default: vs401]
+    -t --time=<time>               Upper time limit for the job D-HH:MM:SS [default: 12:00:00]
+    -m --memory=<mem>              Memory in MB. If -1 then it will take the default value in the partition [default: -1]
+    -n --nodes=<nodes>             Number of nodes [default: 1]
+    -k --ntasks=<ntasks>           Number of tasks (cores) [default: 1]
+    -j --jobname=<jobname>         Name of the job. Will be appended to logs.
+    -l --log=<log>                 log file. Both stdout and stderr are written in the same file. [default: default]
+    -a --head=<N>                  Top <N> lines of the file
+    -i --tail=<N>                  Bottom <N> lines of the file
+    -g --grep=<pattern>            Pattern you want to search for in the file
+    -y --type=<type>               Can take either main or local. If main list all slurp commands. If local prints out slurp history in local dir.
 """
 from docopt import docopt
 import time
