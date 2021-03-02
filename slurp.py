@@ -20,19 +20,12 @@ Options:
     -k --ntasks=<ntasks>           Number of tasks (cores) [default: 1]
     -j --jobname=<jobname>         Name of the job. Will be appended to logs.
     -l --log=<log>                 log file. Both stdout and stderr are written in the same file. [default: default]
-    -a --head=<N>                  Top <N> lines of the file
+    -d --head=<N>                  Top <N> lines of the file
     -i --tail=<N>                  Bottom <N> lines of the file
     -g --grep=<pattern>            Pattern you want to search for in the file
     -y --type=<type>               Can take either main or local. If main list all slurp commands. If local prints out slurp history in local dir.
 """
 from docopt import docopt
-import time
-import os
-import pandas as pd
-import subprocess
-import sys
-import random
-
 
 class Slurmjob:
     def __init__(self, docopt_dict):
@@ -217,6 +210,13 @@ class Slurmjob:
 
 if __name__ == '__main__':
     arguments = docopt(__doc__, version='slurp v1.0')
+    import time
+    import os
+    import pandas as pd
+    import subprocess
+    import sys
+    import random
+
     j = Slurmjob(arguments)
     j.write_job()
     j.start_job()
