@@ -11,8 +11,8 @@ Usage:
 
 Options:
     -h --help                   Help
-    -p --partition=<p>             Partition to run on. eg. clincloud, clincloud-himem, clincloud-express, skylake [default: clincloud]
-    -a --account=<a>               Account to use. eg. gottgens-ccld-sl2-cpu, gottgens-ccld-sl3-cpu [default: gottgens-ccld-sl2-cpu]
+    -p --partition=<p>             Partition to run on. eg. skylake-himem, skylake [default: skylake]
+    -a --account=<a>               Account to use. eg. gottgens-sl2-cpu, gottgens-sl3-cpu [default: gottgens-sl2-cpu]
     -e --email=<emailid>           Email id to use. eg. vs401 [default: vs401]
     -t --time=<time>               Upper time limit for the job D-HH:MM:SS [default: 12:00:00]
     -m --memory=<mem>              Memory in MB. If -1 then it will take the default value in the partition [default: -1]
@@ -54,7 +54,7 @@ class Slurmjob:
         return (self.job)
 
     def start_job(self):
-        cmd = ['sbatch', self.job['slurm_file']]
+        cmd = ['/usr/local/software/slurm/current/bin/sbatch', self.job['slurm_file']]
 
         #### command == ls
         if self.job['ls'] == True:
@@ -116,7 +116,6 @@ class Slurmjob:
         if not os.path.exists(jobd['slurmcode_dir']):
             os.makedirs(jobd['slurmcode_dir'])
         command = ["#!/bin/bash",
-                   "#SBATCH -p " + jobd['partition'],
                    "#SBATCH -A " + jobd['account'],
                    "#SBATCH -N " + jobd['nodes'],
                    "#SBATCH -n " + jobd['ntasks'],
