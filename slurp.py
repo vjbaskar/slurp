@@ -60,7 +60,8 @@ class Slurmjob:
         return (self.job)
 
     def start_job(self):
-        cmd = ['/usr/local/software/slurm/current/bin/sbatch', self.job['slurm_file']]
+        # Resolve sbatch from PATH.
+        cmd = ['sbatch', self.job['slurm_file']]
 
         #### command == ls
         if self.job['ls'] == True:
