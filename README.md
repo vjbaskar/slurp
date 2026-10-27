@@ -60,7 +60,7 @@ directories for the current user.
 
 | Option | Default | Description |
 | --- | --- | --- |
-| `--jobname` | Randomly generated | Slurm job name |
+| `--jobname` | Required | Slurm job name |
 | `--partition` | `skylake` | Slurm partition |
 | `--account` | `gottgens-sl2-cpu` | Slurm account |
 | `--email` | `vs401` | Address or cluster-specific email identifier for Slurm notifications |
