@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "slurp-hpc"
+version = "1.0.0"
+description = "A command-line tool for submitting jobs to Slurm"
+readme = "README.md"
+requires-python = ">=3.7"
+dependencies = [
+    "docopt>=0.6.2",
+    "pandas>=1.0",
+    "tabulate",
+]
+
+[project.scripts]
+slurp = "slurp:main"
+
+[tool.setuptools]
+py-modules = ["slurp"]

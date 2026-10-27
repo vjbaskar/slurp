@@ -26,6 +26,12 @@ Options:
     -y --type=<type>               Can take either main or local. If main list all slurp commands. If local prints out slurp history in local dir.
 """
 from docopt import docopt
+import os
+import pandas as pd
+import random
+import subprocess
+import sys
+import time
 
 class Slurmjob:
     def __init__(self, docopt_dict):
@@ -206,16 +212,8 @@ class Slurmjob:
             with open(code_dir + jobd['runid'] + ".code", "w") as f:
                 f.writelines(jobd['COMMAND'])
 
-
-if __name__ == '__main__':
+def main():
     arguments = docopt(__doc__, version='slurp v1.0')
-    import time
-    import os
-    import pandas as pd
-    import subprocess
-    import sys
-    import random
-
     j = Slurmjob(arguments)
     j.write_job()
     j.start_job()
@@ -226,3 +224,6 @@ if __name__ == '__main__':
     print(f"Slurp job id: {j.job['runid']}")
     print(f"Slurm job id: {j.job['slurmjob_id']}")
     print(f"Slurm job stdout/stderr: {j.job['log']}")
+
+if __name__ == '__main__':
+    main()
