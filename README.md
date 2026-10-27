@@ -5,7 +5,7 @@
 ## Requirements
 
 - Python 3.7 or newer
-- A Slurm system with `sbatch` at `/usr/local/software/slurm/current/bin/sbatch`
+- A Slurm system with `sbatch` available on `PATH`
 - A valid Slurm account and partition
 
 ## Install
